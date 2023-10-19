@@ -3,7 +3,7 @@ import {
   getSongById, getSongBySinger, getAlbumById,
   updateSongById, updateAlbumById,
   getAllSong, getAllAlbum,
-  addSong, addAlbum, deleteSongById, deleteAlbumById,
+  addSong, addAlbum, deleteSongById, deleteAlbumById, getAllSongSorted,
 } from './controller.js';
 
 // Bad Request Response
@@ -55,6 +55,17 @@ const requestListener = async (request, response) => {
         const responseJson = {
           message: 'Berhasil mendapatkan lagu',
           song: song[0],
+        };
+        return response.end(JSON.stringify(responseJson));
+      }
+
+      case 'sortedsong': {
+        const songs = await getAllSongSorted();
+
+        response.statusCode = 200;
+        const responseJson = {
+          message: 'Berhasil mendapatkan lagu',
+          songs,
         };
         return response.end(JSON.stringify(responseJson));
       }

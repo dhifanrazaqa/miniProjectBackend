@@ -14,6 +14,14 @@ const getAllSong = () => new Promise((resolve) => {
   }, 1500);
 });
 
+// menampilkan semua lagu
+const getAllSongSorted = () => new Promise((resolve) => {
+  setTimeout(() => {
+    const sortedSong = songs.sort((a, b) => b.plays - a.plays);
+    resolve(sortedSong);
+  }, 1500);
+});
+
 // menampilkan lagu berdasarkan id
 const getSongById = async (params) => {
   const song = await displayData(() => {
@@ -161,6 +169,6 @@ export {
   getSongById, getSongBySinger, getAlbumById,
   deleteSongById, deleteAlbumById,
   updateSongById, updateAlbumById,
-  getAllSong, getAllAlbum,
+  getAllSong, getAllAlbum, getAllSongSorted,
   addSong, addAlbum,
 };
