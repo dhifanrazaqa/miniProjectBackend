@@ -6,13 +6,13 @@ import {
   addSong, addAlbum, deleteSongById, deleteAlbumById, getAllSongSorted,
 } from './controller.js';
 
-// Bad Request Response
+// Function Helper Bad Request Response
 const resBadRequest = (res) => {
   res.statusCode = 400;
   res.end(JSON.stringify({ message: 'Bad Request' }));
 };
 
-// Not Found Response
+// Function Helper Not Found Response
 const resNotFound = (res, msg) => {
   res.statusCode = 404;
   res.end(JSON.stringify({ message: `${msg} tidak ditemukan` }));
@@ -141,7 +141,7 @@ const requestListener = async (request, response) => {
           };
           return response.end(JSON.stringify(responseJson));
         });
-        break;
+        return true;
       }
 
       case 'album': {
@@ -159,7 +159,7 @@ const requestListener = async (request, response) => {
           };
           return response.end(JSON.stringify(responseJson));
         });
-        break;
+        return true;
       }
       default:
         resBadRequest(response);
@@ -196,7 +196,7 @@ const requestListener = async (request, response) => {
           };
           return response.end(JSON.stringify(responseJson));
         });
-        break;
+        return true;
 
       case 'album':
         request.on('end', () => {
@@ -217,7 +217,7 @@ const requestListener = async (request, response) => {
           };
           return response.end(JSON.stringify(responseJson));
         });
-        break;
+        return true;
       default:
         resBadRequest(response);
         break;
@@ -255,11 +255,11 @@ const requestListener = async (request, response) => {
         return response.end(JSON.stringify(responseJson));
       }
       default:
-        resBadRequest();
+        resBadRequest(response);
         break;
     }
   }
-  return true;
+  return resBadRequest(response);
 };
 
 const app = http.createServer(requestListener);
